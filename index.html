@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Sum of days</title>
+    <style>
+        body {
+            background-color: #1E1E1E;
+            color: #FFFFFF;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 50px;
+        }
+
+        input[type="submit"] {
+            margin-top: 20px;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <label for="startDate">Start date:</label>
+        <input type="date" id="startDate" value="">
+
+        <label for="endDate">End date:</label>
+        <input type="date" id="endDate" value="">
+
+        <input type="submit" value="Calculate" onclick="sumDays()">
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function sumDays() {
+            const startInput = document.getElementById('startDate');
+            const endInput = document.getElementById('endDate');
+            const resultDiv = document.getElementById('result');
+
+            let startDate, endDate;
+
+            if (startInput.value && endInput.value) {
+                startDate = new Date(startInput.value);
+                endDate = new Date(endInput.value);
+            } else {
+                const currentYear = new Date().getFullYear();
+                startDate = new Date(currentYear, 3, 1);
+                endDate = new Date();
+                startInput.valueAsDate = startDate;
+                endInput.valueAsDate = endDate;
+            }
+
+            const oneDay = 24 * 60 * 60 * 1000; // milliseconds in one day
+            const diffDays = Math.round((endDate - startDate) / oneDay);
+            const sumDays = sumTo365(diffDays);
+
+            resultDiv.innerHTML = `Days between dates: ${diffDays}<br>Sum of days from April 1 to today: ${sumDays}`;
+        }
+
+        function sumTo365(diffDays) {
+            let sum = 0;
+            for (let i = 1; i <= diffDays; i++) {
+                sum += i;
+            }
+            return sum;
+        }
+    </script>
+</body>
+
+</html>
